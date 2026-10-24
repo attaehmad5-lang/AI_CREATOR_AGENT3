@@ -1,0 +1,23 @@
+name: Workspace Engine checks
+
+on:
+  push:
+    paths:
+      - 'projects/workspace_engine/**'
+      - '.github/workflows/workspace-engine-checks.yml'
+  pull_request:
+    paths:
+      - 'projects/workspace_engine/**'
+      - '.github/workflows/workspace-engine-checks.yml'
+  workflow_dispatch:
+
+jobs:
+  verification-record:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm verification record exists
+        run: |
+          test -s projects/workspace_engine/README.md
+          test -s projects/workspace_engine/VERIFICATION_REPORT.md
+          grep -q 'Local test gate: PASS' projects/workspace_engine/VERIFICATION_REPORT.md
+          echo "Verification record present."
